@@ -8,10 +8,9 @@ router.get('/', function(req, res, next) {
     MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
         if (err) throw err;
         var dbo = db.db("webapituckermillerdev");
-        var query = { playerName: "Mitch Lewis" };
-        dbo.collection("history").find(query).toArray(function(err, result) {
+        dbo.collection("UserGames").find({}).toArray(function(err, result) {
             if (err) throw err;
-            res.send({games : result[0].games});
+            res.send({games: result});
             db.close();
         });
     });
