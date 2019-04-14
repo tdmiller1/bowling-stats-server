@@ -44,6 +44,13 @@ router.get('/add', function(req, res, next) {
         res.send({response: result});
       db.close();
     });
+
+    var myobj = { playerId: id, score: 150, date: "2019-03-22"}
+      dbo.collection("UserGames").insertOne(myobj, function(err, result) {
+        if (err) console.log(err);
+          res.send({response: result});
+        db.close();
+      });
   });
 });
 
