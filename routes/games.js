@@ -89,7 +89,7 @@ function updateProfile(url, id){
         if(result[i].score > max) max = result[i].score
       }
       average = parseInt(sum/result.length, 10)
-      var myquery = { _id: "tuckerdanielmiller@gmail.com" };
+      var myquery = { _id: id };
       var newvalues = { $set: {average: average, max: max } };
       console.log(newvalues)
       dbo.collection("player").updateOne(myquery, newvalues, function(err, result) {
