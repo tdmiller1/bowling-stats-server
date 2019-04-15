@@ -43,38 +43,18 @@ router.get('/find', function(req, res, next) {
       dbo.collection("UserGames").insertOne(myobj, function(err, result) {
         if (err) console.log(err);
           res.send({response: result});
+          
+          updateProfile(url, id); 
         db.close();
       });
     });
 
-    MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
-      if (err) throw err;
-      var dbo = db.db("webapituckermillerdev");
-      var query = { playerId: id };
-      let sum = 0;
-      let max = 0
-      let average = 200;
-      dbo.collection("UserGames").find(query).toArray(function(err, result) {
-        for(var i = 0; i < result.length; i++){
-          sum = result[i].score + sum
-          if(result[i].score > max) max = result[i].score
-        }
-        average = parseInt(sum/result.length, 10)
-        var myquery = { _id: "tuckerdanielmiller@gmail.com" };
-        var newvalues = { $set: {average: average, max: max } };
-        dbo.collection("player").updateOne(myquery, newvalues, function(err, result) {
-          if (err) console.log(err);
-          db.close();
-        });
-      });
-      });
-
-      
 
 })
 
 router.delete('/',function(req, res){
-  const {id} = req.body
+  const {id, playerId} = req.body
+  console.log(playerId)
   MongoClient.connect(url, {useNewUrlParser: true}, function(err, db) {
     if (err) throw err;
     var dbo = db.db("webapituckermillerdev");
@@ -84,9 +64,41 @@ router.delete('/',function(req, res){
       console.log(obj);
       console.log(req.body.id)
       res.send("test")
+      updateProfile(url, playerId);
+
       db.close();
     });
   });
+
+
 })
+
+
+function updateProfile(url, id){
+  console.log(id)
+  MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("webapituckermillerdev");
+    var query = { playerId: id };
+    let sum = 0;
+    let max = 0
+    let average = 200;
+    dbo.collection("UserGames").find(query).toArray(function(err, result) {
+      for(var i = 0; i < result.length; i++){
+        sum = result[i].score + sum
+        if(result[i].score > max) max = result[i].score
+      }
+      average = parseInt(sum/result.length, 10)
+      var myquery = { _id: "tuckerdanielmiller@gmail.com" };
+      var newvalues = { $set: {average: average, max: max } };
+      console.log(newvalues)
+      dbo.collection("player").updateOne(myquery, newvalues, function(err, result) {
+          if (err) console.log(err);
+          db.close();
+        });
+      });
+    });
+  }
+
 
 module.exports = router;
