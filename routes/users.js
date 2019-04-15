@@ -44,8 +44,21 @@ router.get('/add', function(req, res, next) {
         res.send({response: result});        
       db.close();
     });
+  });
+});
 
-    
+router.put('/update', function(req, res, next) {
+  const {id, max, average} = req.query;
+  MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("webapituckermillerdev");
+    var myquery = { _id: id };
+    var newvalues = { $set: {average: average, max: max } };
+    dbo.collection("player").updateOne(myquery, newvalues, function(err, result) {
+      if (err) console.log(err);
+        res.send({response: result});        
+      db.close();
+    });
   });
 });
 
