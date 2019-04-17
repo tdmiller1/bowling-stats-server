@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+  h3 GET All Games ~ /#{title}/
+
+  p Returns list of JSON objects #{title}
+
+  h3 GET Games from Player ~ /#{title}/find?id={ playerId }
+
+  p Returns list of JSON objects #{title}
+
+  h3 Add Game to a Player ~ /#{title}/add
+
+  p In Body of POST method, JSON/Application
+  p id: string Player Id
+  p score: int game score
+  p date: Date type or string of date: 2019-03-22
+  
+  h3 Delete Game ~ /#{title}/
+
+  p In Body of DELETE method, JSON/Application
+  p id: gameUID 
+  p playerId: Player ID

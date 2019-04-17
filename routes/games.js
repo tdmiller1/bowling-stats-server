@@ -4,6 +4,11 @@ var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://tdmiller7:Ker11lerbsu!@ds257579.mlab.com:57579/webapituckermillerdev"
 var ObjectID = require('mongodb').ObjectID
 
+/* GET Info page. */
+router.get('/info', function(req, res, next) {
+  res.render('games', { title: 'games' });
+});
+
 /* GET games listing. */
 router.get('/', function(req, res, next) {
     MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {

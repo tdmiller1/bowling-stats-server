@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1= title
+  h3 GET All Users ~ /#{title}/
+
+  p Returns list of JSON objects #{title}
+
+  h3 GET a list of single Player ~ /#{title}/find?id={ playerId }
+
+  h3 Add a Player ~ /#{title}/add
+
+  p In Body of POST method, JSON/Application
+  p id: string Player Id
+  p name: string Player Name
+  
+  h3 Update a player ~ /#{title}/update
+
+  p In Body of PUT method, JSON/Application
+  p id: playerId 
+  p playerName: Player Name
+  p max: int max score
+  p average: int average score

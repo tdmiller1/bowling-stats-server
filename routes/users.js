@@ -3,6 +3,11 @@ var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://tdmiller7:Ker11lerbsu!@ds257579.mlab.com:57579/webapituckermillerdev"
 
+/* GET Info page. */
+router.get('/info', function(req, res, next) {
+  res.render('users', { title: 'users' });
+});
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
@@ -48,12 +53,12 @@ router.get('/add', function(req, res, next) {
 });
 
 router.put('/update', function(req, res, next) {
-  const {id, max, average} = req.query;
+  const {id, max, average, playerName} = req.query;
   MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
     if (err) throw err;
     var dbo = db.db("webapituckermillerdev");
     var myquery = { _id: id };
-    var newvalues = { $set: {average: average, max: max } };
+    var newvalues = { $set: {average: average, max: max, playerName: playerName } };
     dbo.collection("player").updateOne(myquery, newvalues, function(err, result) {
       if (err) console.log(err);
         res.send({response: result});        
