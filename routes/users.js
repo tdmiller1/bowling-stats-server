@@ -37,13 +37,28 @@ router.get('/find', function(req, res, next) {
   });
 });
 
+/* GET user on id listing. */
+router.get('/find/friends', function(req, res, next) {
+  const {id} = req.query;
+  MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("webapituckermillerdev");
+    var query = { _id: id };
+    dbo.collection("player").find(query).toArray(function(err, result) {
+      if (err) throw err;
+        res.send({friends:result[0].friends});
+      db.close();
+    });
+  });
+});
+
 /* INSERT user listing. */
 router.get('/add', function(req, res, next) {
   const {id, name} = req.query;
   MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
     if (err) throw err;
     var dbo = db.db("webapituckermillerdev");
-    var myobj = { _id: id, playerName: name, average: 0, max: 0,}
+    var myobj = { _id: id, playerName: name, average: 0, max: 0,friends:[]}
     dbo.collection("player").insertOne(myobj, function(err, result) {
       if (err) console.log(err);
         res.send({response: result});        
@@ -65,6 +80,23 @@ router.put('/update', function(req, res, next) {
       db.close();
     });
   });
+});
+
+router.put('/add/friends', function(req, res, next) {
+  const {id, friend} = req.query;
+  if(friend.includes("@")){
+    MongoClient.connect(url,{useNewUrlParser: true}, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("webapituckermillerdev");
+      var myquery = { _id: id };
+      var newvalues = { $push: { friends: {"_id": friend} } };
+      dbo.collection("player").updateOne(myquery, newvalues, function(err, result) {
+        if (err) console.log(err);
+        res.send({response: result});
+        db.close();
+      });
+    });
+  }
 });
 
 module.exports = router;
