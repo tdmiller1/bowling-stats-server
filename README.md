@@ -18,9 +18,9 @@ Starts and opens nodemon server on localhost port 3001
 
 ## Endpoints
 
-[Games](##Games)
+[Games](#Games)
 
-[Users](##Users)
+[Users](#Users)
 
 ## Games
 
