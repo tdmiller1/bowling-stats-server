@@ -11,7 +11,7 @@ if (process.env.NODE_ENV != 'development'){
     config = {
         db:{
             username: process.env.mongoUsername,
-            password: process.env.mongoPassord,
+            password: process.env.mongoPassword,
             host: process.env.mongoHost,
             name: process.env.databaseName,
             port: process.env.mongoPort
