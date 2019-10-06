@@ -19,4 +19,7 @@ if (process.env.NODE_ENV != 'development'){
     }
 }
 
+console.log("CONFIG")
+console.log(config)
+
 module.exports = config;
