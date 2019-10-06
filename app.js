@@ -5,6 +5,10 @@ var cors = require('cors');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+if(process.env.NODE_ENV === undefined){
+  process.env.NODE_ENV = 'development'
+}
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var gamesRouter = require('./routes/games');
@@ -36,6 +40,7 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+  
 
   // render the error page
   res.status(err.status || 500);

@@ -1,7 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://tdmiller7:Ker11lerbsu!@ds257579.mlab.com:57579/webapituckermillerdev"
+const config = require('../config');
+const { db: { username, password, host, port, name }} = config;
+
+url = "mongodb://"
+    +config.db.username
+    +":"+config.db.password
+    +"@"+config.db.host
+    +":"+config.db.port
+    +"/"+config.db.name
 
 /* GET Info page. */
 router.get('/info', function(req, res, next) {
